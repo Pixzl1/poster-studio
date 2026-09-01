@@ -156,6 +156,10 @@ docker compose up --build
 
 The multi-stage image builds Next.js standalone output and runs as a non-root user on port 3000. The app can be deployed on any compatible Node.js host and requires no database or paid API.
 
+### Install locally on Windows, macOS, or Linux
+
+For a beginner-friendly installation using Docker, including English and German instructions, see the **[local installation guide](./docs/LOCAL_INSTALLATION.md)**. The guide covers installation, first start, updates, removal, and common problems without requiring programming knowledge.
+
 ### Install on Unraid — beginner-friendly
 
 Poster Studio is provided as a ready-to-run Unraid image. You do not need to download the source code, install Node.js, or compile anything.
