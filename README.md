@@ -156,6 +156,23 @@ docker compose up --build
 
 The multi-stage image builds Next.js standalone output and runs as a non-root user on port 3000. The app can be deployed on any compatible Node.js host and requires no database or paid API.
 
+### Unraid
+
+Every update to `main` automatically publishes a ready-to-run multi-architecture image at `ghcr.io/pixzl1/poster-studio:latest`. Unraid therefore does not need to compile the application.
+
+1. Open the Unraid terminal and install the included user template:
+
+   ```bash
+   mkdir -p /boot/config/plugins/dockerMan/templates-user
+   wget -O /boot/config/plugins/dockerMan/templates-user/my-poster-studio.xml https://raw.githubusercontent.com/Pixzl1/poster-studio/main/unraid/poster-studio.xml
+   ```
+
+2. Open **Docker → Add Container**.
+3. Select **Poster Studio** under **User templates** and click **Apply**.
+4. Open the app from its WebUI button. The default address is `http://YOUR-UNRAID-IP:3000`.
+
+No storage path is required because uploaded artwork remains local to the browser. The template pulls new container images automatically when the container is recreated or updated. To use a different host port, change **WebUI Port** before applying the template.
+
 ## Known limitations
 
 - Browser memory limits very large 300 DPI exports.

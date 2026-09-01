@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Poster Studio</Name>
+  <Repository>ghcr.io/pixzl1/poster-studio:latest</Repository>
+  <Registry>https://github.com/Pixzl1/poster-studio/pkgs/container/poster-studio</Registry>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/Pixzl1/poster-studio/issues</Support>
+  <Project>https://github.com/Pixzl1/poster-studio</Project>
+  <Overview>Create print-ready music and custom posters from your own artwork. Artwork stays in the browser; no storage volume is required.</Overview>
+  <Category>Tools: Productivity:</Category>
+  <WebUI>http://[IP]:[PORT:3000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/Pixzl1/poster-studio/main/unraid/poster-studio.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/Pixzl1/poster-studio/main/public/favicon.svg</Icon>
+  <ExtraParams>--pull=always</ExtraParams>
+  <PostArgs />
+  <CPUset />
+  <DateInstalled />
+  <DonateText>Support Poster Studio</DonateText>
+  <DonateLink>https://ko-fi.com/pixzl1</DonateLink>
+  <Requires />
+  <Config Name="WebUI Port" Target="3000" Default="3000" Mode="tcp" Description="Port used to open Poster Studio in your browser." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="MusicBrainz" Target="MUSICBRAINZ_ENABLED" Default="true" Mode="" Description="Set to false to disable MusicBrainz metadata lookup." Type="Variable" Display="always" Required="true" Mask="false">true</Config>
+  <Config Name="MusicBrainz User Agent" Target="MUSICBRAINZ_USER_AGENT" Default="PosterStudio/1.0 (https://github.com/Pixzl1/poster-studio)" Mode="" Description="Identifies this installation when it requests metadata from MusicBrainz." Type="Variable" Display="advanced" Required="true" Mask="false">PosterStudio/1.0 (https://github.com/Pixzl1/poster-studio)</Config>
+  <Config Name="Trust Proxy Headers" Target="TRUST_PROXY_HEADERS" Default="false" Mode="" Description="Enable only behind a trusted reverse proxy that sanitizes forwarding headers." Type="Variable" Display="advanced" Required="true" Mask="false">false</Config>
+</Container>
+
