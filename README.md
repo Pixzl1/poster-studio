@@ -158,7 +158,7 @@ The multi-stage image builds Next.js standalone output and runs as a non-root us
 
 ### Unraid
 
-Every update to `main` automatically publishes a ready-to-run multi-architecture image at `ghcr.io/pixzl1/poster-studio:latest`. Unraid therefore does not need to compile the application.
+Every update to `main` automatically publishes a ready-to-run Unraid image at `ghcr.io/pixzl1/poster-studio:latest`. Unraid therefore does not need to compile the application.
 
 1. Open the Unraid terminal and install the included user template:
 
