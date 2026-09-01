@@ -156,22 +156,63 @@ docker compose up --build
 
 The multi-stage image builds Next.js standalone output and runs as a non-root user on port 3000. The app can be deployed on any compatible Node.js host and requires no database or paid API.
 
-### Unraid
+### Install on Unraid — beginner-friendly
 
-Every update to `main` automatically publishes a ready-to-run Unraid image at `ghcr.io/pixzl1/poster-studio:latest`. Unraid therefore does not need to compile the application.
+Poster Studio is provided as a ready-to-run Unraid image. You do not need to download the source code, install Node.js, or compile anything.
 
-1. Open the Unraid terminal and install the included user template:
+Before you begin, make sure Docker is enabled in Unraid under **Settings → Docker**.
+
+1. In the Unraid web interface, click the **Terminal** icon (`>_`) in the top-right corner.
+2. Copy the complete block below, paste it into the terminal, and press **Enter**:
 
    ```bash
    mkdir -p /boot/config/plugins/dockerMan/templates-user
    wget -O /boot/config/plugins/dockerMan/templates-user/my-poster-studio.xml https://raw.githubusercontent.com/Pixzl1/poster-studio/main/unraid/poster-studio.xml
    ```
 
-2. Open **Docker → Add Container**.
-3. Select **Poster Studio** under **User templates** and click **Apply**.
-4. Open the app from its WebUI button. The default address is `http://YOUR-UNRAID-IP:3000`.
+3. Close the terminal and open the **Docker** page.
+4. Click **Add Container**.
+5. Open the **Template** list and select **Poster Studio** under **User templates**.
+6. Keep the default settings and click **Apply**. Unraid now downloads and starts Poster Studio automatically.
+7. When the installation is complete, click the Poster Studio icon and select **WebUI**.
 
-No storage path is required because uploaded artwork remains local to the browser. The template pulls new container images automatically when the container is recreated or updated. To use a different host port, change **WebUI Port** before applying the template.
+The app normally opens at `http://YOUR-UNRAID-IP:3000`. You do not need to enter this address manually when using the **WebUI** button. If port `3000` is already used by another container, choose a different **WebUI Port** before clicking **Apply**.
+
+No storage path is required: uploaded artwork stays in the user's browser and is not stored inside the container or on the Unraid server.
+
+#### Updating Poster Studio
+
+Open Unraid's **Docker** page and click **Check for Updates**. If an update is available, click **Update** next to Poster Studio. New images are built automatically from the current `main` branch and published as `ghcr.io/pixzl1/poster-studio:latest`.
+
+<details>
+  <summary><strong>Deutsche Installationsanleitung</strong></summary>
+  <br />
+
+Poster Studio wird als fertiger Unraid-Container bereitgestellt. Du musst weder den Quellcode herunterladen noch Node.js installieren oder etwas selbst kompilieren.
+
+Prüfe zunächst unter **Einstellungen → Docker**, ob Docker in Unraid aktiviert ist.
+
+1. Klicke oben rechts in der Unraid-Oberfläche auf das **Terminal-Symbol** (`>_`).
+2. Kopiere den folgenden vollständigen Block, füge ihn in das Terminal ein und drücke **Enter**:
+
+   ```bash
+   mkdir -p /boot/config/plugins/dockerMan/templates-user
+   wget -O /boot/config/plugins/dockerMan/templates-user/my-poster-studio.xml https://raw.githubusercontent.com/Pixzl1/poster-studio/main/unraid/poster-studio.xml
+   ```
+
+3. Schließe das Terminal und öffne die Seite **Docker**.
+4. Klicke auf **Add Container**.
+5. Öffne die Liste **Template** und wähle unter **User templates** den Eintrag **Poster Studio** aus.
+6. Behalte die voreingestellten Werte bei und klicke auf **Apply**. Unraid lädt und startet Poster Studio nun automatisch.
+7. Klicke nach Abschluss der Installation auf das Poster-Studio-Symbol und anschließend auf **WebUI**.
+
+Poster Studio ist normalerweise unter `http://DEINE-UNRAID-IP:3000` erreichbar. Über den **WebUI**-Button musst du diese Adresse nicht selbst eingeben. Falls Port `3000` bereits von einem anderen Container verwendet wird, wähle vor **Apply** einen anderen **WebUI Port**.
+
+Ein Speicherpfad ist nicht erforderlich: Hochgeladene Bilder verbleiben im Browser des Benutzers und werden weder im Container noch auf dem Unraid-Server gespeichert.
+
+**Updates:** Öffne die Unraid-Seite **Docker** und klicke auf **Check for Updates**. Wird eine neue Version angezeigt, klicke bei Poster Studio auf **Update**.
+
+</details>
 
 ## Known limitations
 
