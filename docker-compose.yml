@@ -1,0 +1,12 @@
+services:
+  poster-studio:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      APP_NAME: 'Poster Studio'
+      APP_URL: 'http://localhost:3000'
+    restart: unless-stopped

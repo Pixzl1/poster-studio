@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+
+:root {
+  color-scheme: light;
+  --background: #f7f7f5;
+  --surface: #ffffff;
+  --surface-muted: #f2f2ef;
+  --canvas: #eaeae6;
+  --border: #deded8;
+  --border-strong: #bdbdb5;
+  --foreground: #222220;
+  --muted: #6f6f68;
+  --subtle: #9a9a92;
+  --accent: #262624;
+  --accent-hover: #3a3a37;
+  --danger: #9e3d36;
+  --danger-surface: #fff4f2;
+  --warning: #795b20;
+  --warning-surface: #fff9e9;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--background);
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  text-rendering: optimizeLegibility;
+}
+@media (min-width: 80rem) {
+  html,
+  body {
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
+button,
+input,
+select {
+  font: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+input[type='search']:focus-visible {
+  outline: none;
+}
+input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+.poster-frame {
+  width: 100%;
+  max-width: 46rem;
+}
+
+input[type='range'] {
+  height: 1.25rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .poster-frame {
+    width: min(100%, calc((100dvh - 1.5rem) * var(--poster-ratio)));
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

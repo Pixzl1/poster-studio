@@ -1,0 +1,31 @@
+import type { AlbumData } from '@/types/music';
+export const SAMPLE_ALBUM: AlbumData = {
+  id: 'sample',
+  title: 'Currents',
+  artist: 'Tame Impala',
+  year: 2015,
+  country: 'AU',
+  status: 'Official',
+  primaryType: 'Album',
+  secondaryTypes: [],
+  disambiguation: '',
+  trackCount: 8,
+  releaseDate: '2015-07-17',
+  barcode: null,
+  isExplicit: false,
+  tracks: [
+    'Let It Happen',
+    'Nangs',
+    'The Moment',
+    'Yes I’m Changing',
+    'Eventually',
+    'Gossip',
+    'The Less I Know the Better',
+    'Past Life',
+  ].map((title, index) => ({
+    id: `sample-${index}`,
+    position: index + 1,
+    title,
+    durationMs: 210000 + index * 13000,
+  })),
+};

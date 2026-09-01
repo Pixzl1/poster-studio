@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an improvement that fits Poster Studio's product scope
+title: '[Feature]: '
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What user problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed direction
+      description: Explain the workflow without assuming a specific implementation.
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Scope check
+      options:
+        - label: This does not require automatic third-party artwork retrieval.
+          required: true

@@ -1,0 +1,21 @@
+name: Bug report
+description: Report a reproducible problem in Poster Studio
+title: '[Bug]: '
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Describe the expected and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: How can we reproduce it?
+      description: Include the poster mode, template, format, DPI, browser, and steps.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add screenshots without including copyrighted artwork or private data.
