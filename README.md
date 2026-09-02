@@ -31,7 +31,7 @@ Artwork is processed locally in the browser. The application does not upload it,
 - Fully manual music workflow and editable imported tracklists
 - Row editing, deletion, drag reordering, and bulk-text track import
 - Dedicated `MusicPosterContent` and `CustomPosterContent` models in a discriminated `PosterProject` union
-- Five visible music styles, with additional work-in-progress templates retained in the registry, plus **Editorial Dark** and **Editorial White** for Custom posters
+- Six visible music styles, including the artwork-derived **Chromatic Index**, with additional work-in-progress templates retained in the registry, plus **Editorial Dark** and **Editorial White** for Custom posters
 - Optional scan-ready QR codes generated locally from a user-provided music-service link
 - One canonical SVG rendering pipeline for live preview, PNG, and exact-page-size PDF
 - A4, A3, 30×40 cm, 40×50 cm, 50×70 cm, and US Letter at 150 or 300 DPI
