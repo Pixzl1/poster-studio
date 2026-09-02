@@ -9,6 +9,7 @@ export const PRINT_FORMAT_IDS = [
 export type PrintFormatId = (typeof PRINT_FORMAT_IDS)[number];
 export const POSTER_TEMPLATE_IDS = [
   'classic',
+  'chromatic-index',
   'gallery',
   'sand',
   'paper',
@@ -83,6 +84,7 @@ export interface UserArtwork {
   mimeType: string;
   fileName: string;
   sizeBytes: number;
+  palette?: string[];
 }
 
 export interface MusicPosterContent {

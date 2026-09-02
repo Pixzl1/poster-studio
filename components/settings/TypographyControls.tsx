@@ -35,7 +35,12 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
           { key: 'customMetadataScale', label: 'typography.metadata' },
         ];
 
-  if (mode === 'music' && template !== 'gallery' && template !== 'noir') {
+  if (
+    mode === 'music' &&
+    template !== 'gallery' &&
+    template !== 'noir' &&
+    template !== 'chromatic-index'
+  ) {
     return null;
   }
 

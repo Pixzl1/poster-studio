@@ -1,5 +1,6 @@
 import { BloomTemplate } from './bloom/BloomTemplate';
 import { ClassicTemplate } from './classic/ClassicTemplate';
+import { ChromaticIndexTemplate } from './chromatic-index/ChromaticIndexTemplate';
 import { GalleryTemplate } from './gallery/GalleryTemplate';
 import { MonoTemplate } from './mono/MonoTemplate';
 import { NoirTemplate } from './noir/NoirTemplate';
@@ -14,6 +15,11 @@ import type {
 } from './types';
 export const MUSIC_POSTER_TEMPLATES = {
   classic: { id: 'classic', name: 'Classic', component: ClassicTemplate },
+  'chromatic-index': {
+    id: 'chromatic-index',
+    name: 'Chromatic Index',
+    component: ChromaticIndexTemplate,
+  },
   gallery: { id: 'gallery', name: 'Gallery', component: GalleryTemplate },
   sand: { id: 'sand', name: 'Sand', component: SandTemplate },
   paper: { id: 'paper', name: 'Paper', component: PaperTemplate },

@@ -1,4 +1,5 @@
 import type { UserArtwork } from '@/types/poster';
+import { extractPaletteFromImage } from '@/lib/artwork/palette';
 
 export const SUPPORTED_ARTWORK_TYPES = [
   'image/jpeg',
@@ -45,8 +46,8 @@ export async function createUserArtwork(
   validateArtworkFileMetadata(file, maxBytes);
   const objectUrl = URL.createObjectURL(file);
   try {
-    const dimensions = await decodeImageDimensions(objectUrl);
-    if (dimensions.width < 1 || dimensions.height < 1) {
+    const image = await decodeImage(objectUrl);
+    if (image.naturalWidth < 1 || image.naturalHeight < 1) {
       throw new ArtworkValidationError(
         'Das Bild besitzt keine gültigen Abmessungen.',
       );
@@ -54,11 +55,12 @@ export async function createUserArtwork(
     return {
       file,
       objectUrl,
-      width: dimensions.width,
-      height: dimensions.height,
+      width: image.naturalWidth,
+      height: image.naturalHeight,
       mimeType: file.type,
       fileName: file.name,
       sizeBytes: file.size,
+      palette: extractPaletteFromImage(image),
     };
   } catch (error) {
     URL.revokeObjectURL(objectUrl);
@@ -67,13 +69,10 @@ export async function createUserArtwork(
   }
 }
 
-async function decodeImageDimensions(
-  objectUrl: string,
-): Promise<{ width: number; height: number }> {
+async function decodeImage(objectUrl: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    image.onload = () =>
-      resolve({ width: image.naturalWidth, height: image.naturalHeight });
+    image.onload = () => resolve(image);
     image.onerror = () => reject(new Error('Image decode failed'));
     image.src = objectUrl;
   });

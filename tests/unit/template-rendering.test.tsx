@@ -84,7 +84,7 @@ describe('poster template rendering', () => {
     },
   );
 
-  it.each(['gallery', 'noir'] as const)(
+  it.each(['gallery', 'noir', 'chromatic-index'] as const)(
     'wraps a long %s title and applies its title scale',
     (template) => {
       const Template = MUSIC_POSTER_TEMPLATES[template].component;
@@ -112,6 +112,33 @@ describe('poster template rendering', () => {
       expect(markup.match(/<tspan/g)?.length).toBeGreaterThanOrEqual(2);
     },
   );
+
+  it('renders the artwork palette in Chromatic Index', () => {
+    const ChromaticIndex = MUSIC_POSTER_TEMPLATES['chromatic-index'].component;
+    const markup = renderToStaticMarkup(
+      <ChromaticIndex
+        album={album}
+        artwork={{
+          ...artwork,
+          palette: ['#101820', '#234f91', '#704c91', '#ca5364', '#e98a42'],
+        }}
+        artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+        settings={{
+          ...DEFAULT_POSTER_SETTINGS,
+          template: 'chromatic-index',
+          albumCodeUrl: 'https://example.com/chromatic-index',
+        }}
+      />,
+    );
+
+    expect(markup).toContain(
+      'data-artwork-palette="#101820,#234f91,#704c91,#ca5364,#e98a42"',
+    );
+    expect(markup).toContain('data-poster-title="chromatic-index"');
+    expect(markup).toContain('data-album-code="qr"');
+    expect(markup).toContain('data-year-alignment="qr-visible-edge"');
+    expect(markup).not.toMatch(/NaN|Infinity/);
+  });
 
   it.each(
     Object.keys(MUSIC_POSTER_TEMPLATES) as Array<
@@ -214,7 +241,14 @@ describe('poster template rendering', () => {
     expect(bloom.match(/data-export-href/g)?.length).toBe(2);
   });
 
-  it.each(['classic', 'gallery', 'noir', 'mono', 'bloom'] as const)(
+  it.each([
+    'classic',
+    'chromatic-index',
+    'gallery',
+    'noir',
+    'mono',
+    'bloom',
+  ] as const)(
     'renders the configured QR code in the visible %s music style',
     (template) => {
       const Template = MUSIC_POSTER_TEMPLATES[template].component;

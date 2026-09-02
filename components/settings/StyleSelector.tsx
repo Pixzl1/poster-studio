@@ -2,6 +2,7 @@ import type { PosterMode, PosterTemplateId } from '@/types/poster';
 
 const styles: ReadonlyArray<{ id: PosterTemplateId; label: string }> = [
   { id: 'classic', label: 'Classic' },
+  { id: 'chromatic-index', label: 'Chromatic Index' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'noir', label: 'Noir' },
   { id: 'mono', label: 'Mono' },

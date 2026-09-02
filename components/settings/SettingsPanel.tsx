@@ -65,7 +65,8 @@ export function SettingsPanel({
         </SettingSection>
         {(project.mode === 'custom' ||
           settings.template === 'gallery' ||
-          settings.template === 'noir') && (
+          settings.template === 'noir' ||
+          settings.template === 'chromatic-index') && (
           <SettingSection title={t('settings.typography')}>
             <TypographyControls
               mode={project.mode}
