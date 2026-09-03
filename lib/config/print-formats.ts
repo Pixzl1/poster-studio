@@ -35,6 +35,7 @@ export const DEFAULT_POSTER_SETTINGS: PosterSettings = {
   showReleaseDate: true,
   showTotalRuntime: true,
   showWaveform: true,
+  showArtworkPalette: true,
   showAlbumCode: true,
   albumCodeUrl: '',
   albumCodePosition: 'right',

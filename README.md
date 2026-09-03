@@ -22,6 +22,24 @@ Artwork is processed locally in the browser. The application does not upload it,
   </p>
 </details>
 
+## Latest update — September 3, 2026
+
+### Artwork color bars / Farbpaletten
+
+**English**
+
+- **Editorial Dark** and **Editorial White** now feature a five-color bar below the title, using colors extracted locally from your uploaded artwork, just like **Chromatic Index**.
+- Use **Show color bar** below the style selector to hide or show the bar in all three templates. It is enabled by default and the choice also applies to PNG/PDF exports.
+- Editorial subtitles, creator details, and descriptions move up when the bar is hidden. Spacing and year alignment have been adjusted to fit the new layout.
+- Existing print formats, DPI options, QR codes, and local-only artwork processing remain available. Regression tests cover palette colors, visibility, layout spacing, and settings compatibility.
+
+**Deutsch**
+
+- **Editorial Dark** und **Editorial White** haben jetzt eine fünfteilige Farbbar unter dem Titel. Die Farben werden wie beim **Chromatic Index** lokal aus deinem hochgeladenen Bild ermittelt.
+- Unter der Stilauswahl kannst du die Leiste mit **Farbbar anzeigen** in allen drei Vorlagen ein- und ausblenden. Sie ist standardmäßig sichtbar; die Auswahl gilt auch für PNG-/PDF-Exporte.
+- Beim Ausblenden rücken Untertitel, Creator und Beschreibung der Editorial-Poster nach oben. Abstände und Jahresausrichtung wurden an das neue Layout angepasst.
+- Vorhandene Druckformate, DPI-Optionen, QR-Codes und die lokale Bildverarbeitung bleiben erhalten. Regressionstests prüfen Farben, Sichtbarkeit, Abstände und die Kompatibilität der Einstellungen.
+
 ## Highlights
 
 - Local JPG, PNG, WEBP, and AVIF artwork with MIME, size, decode, and dimension validation

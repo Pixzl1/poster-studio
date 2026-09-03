@@ -12,6 +12,7 @@ import { SelectedAlbum } from '@/components/settings/SelectedAlbum';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { StyleSelector } from '@/components/settings/StyleSelector';
 import { TypographyControls } from '@/components/settings/TypographyControls';
+import { CheckIcon } from '@/components/ui/Icons';
 import { isProjectExportable } from '@/lib/domain/project';
 import type { PosterProject, PosterSettings } from '@/types/poster';
 
@@ -62,6 +63,25 @@ export function SettingsPanel({
             mode={project.mode}
             onChange={(value) => update('template', value)}
           />
+          {['editorial-dark', 'editorial-white', 'chromatic-index'].includes(
+            settings.template,
+          ) && (
+            <label className="mt-4 flex min-h-6 cursor-pointer items-center gap-3 text-sm">
+              <span className="relative shrink-0">
+                <input
+                  type="checkbox"
+                  className="peer sr-only"
+                  checked={settings.showArtworkPalette !== false}
+                  onChange={(event) =>
+                    update('showArtworkPalette', event.target.checked)
+                  }
+                />
+                <span className="block size-5 rounded-[4px] border border-[var(--border-strong)] bg-white transition-colors peer-checked:border-[var(--accent)] peer-checked:bg-[var(--accent)] peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--accent)] peer-focus-visible:ring-offset-2" />
+                <CheckIcon className="pointer-events-none absolute left-1 top-1 hidden size-3 text-white peer-checked:block" />
+              </span>
+              <span>{t('options.palette')}</span>
+            </label>
+          )}
         </SettingSection>
         {(project.mode === 'custom' ||
           settings.template === 'gallery' ||

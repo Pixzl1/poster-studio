@@ -140,6 +140,26 @@ describe('poster template rendering', () => {
     expect(markup).not.toMatch(/NaN|Infinity/);
   });
 
+  it('can hide the Chromatic Index palette without hiding the waveform or QR code', () => {
+    const Template = MUSIC_POSTER_TEMPLATES['chromatic-index'].component;
+    const markup = renderToStaticMarkup(
+      <Template
+        album={album}
+        artwork={artwork}
+        artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+        settings={{
+          ...DEFAULT_POSTER_SETTINGS,
+          template: 'chromatic-index',
+          showArtworkPalette: false,
+          albumCodeUrl: 'https://example.com/listen',
+        }}
+      />,
+    );
+    expect(markup).not.toContain('data-artwork-palette');
+    expect(markup).toContain('data-album-code="qr"');
+    expect(markup).toContain('data-poster-waveform="true"');
+  });
+
   it.each(
     Object.keys(MUSIC_POSTER_TEMPLATES) as Array<
       keyof typeof MUSIC_POSTER_TEMPLATES

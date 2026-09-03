@@ -50,6 +50,7 @@ export interface PosterSettings {
   showReleaseDate: boolean;
   showTotalRuntime: boolean;
   showWaveform: boolean;
+  showArtworkPalette: boolean;
   showAlbumCode: boolean;
   albumCodeUrl: string;
   albumCodePosition: QrCodePosition;

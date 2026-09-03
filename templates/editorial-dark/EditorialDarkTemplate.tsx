@@ -3,6 +3,7 @@ import { normalizePosterLink } from '@/lib/domain/poster-link';
 import { wrapText } from '@/lib/domain/text-layout';
 import { AlbumCodeMark } from '@/templates/classic/PosterFooter';
 import { getPosterScale, truncateLabel } from '@/templates/classic/layout';
+import { ArtworkPalette } from '@/templates/shared/ArtworkPalette';
 import { PosterArtwork, SANS } from '@/templates/shared/elements';
 import type { CustomPosterTemplateProps } from '@/templates/types';
 
@@ -52,7 +53,11 @@ export function EditorialComposition({
     8,
     Math.floor(contentWidth / (titleSize * 0.54)),
   );
-  const titleY = margin + artworkHeight + 220 * scale;
+  const titleY =
+    margin + artworkHeight + Math.max(160 * scale, titleSize * 1.15);
+  const paletteY = titleY + Math.max(54 * scale, titleSize * 0.35);
+  const paletteHeight = 34 * scale;
+  const showPalette = settings.showArtworkPalette !== false;
   const metadataY = height - margin - 150 * scale;
   const hasSubtitle = Boolean(content.subtitle.trim());
   const hasCreator = Boolean(content.creator.trim());
@@ -63,16 +68,25 @@ export function EditorialComposition({
   const metadataValueSize =
     25 * scale * settings.typography.customMetadataScale;
   const yearFontSize = 30 * scale * settings.typography.customMetadataScale;
-  const subtitleY = titleY + Math.max(78 * scale, titleSize * 0.72);
+  const subtitleY = showPalette
+    ? paletteY + paletteHeight + Math.max(76 * scale, subtitleFontSize * 1.4)
+    : titleY + Math.max(78 * scale, titleSize * 0.72, subtitleFontSize * 1.4);
   const creatorY =
     subtitleY +
     (hasSubtitle ? Math.max(52 * scale, subtitleFontSize * 1.4) : 0);
-  const detailsBottomY = hasCreator
+  const yearY = hasCreator ? creatorY : subtitleY;
+  const textBottomY = hasCreator
     ? creatorY + creatorFontSize * 0.3
     : hasSubtitle
       ? subtitleY + subtitleFontSize * 0.3
-      : titleY;
-  const descriptionY = detailsBottomY + 125 * scale;
+      : showPalette
+        ? paletteY + paletteHeight
+        : titleY;
+  const detailsBottomY = Math.max(
+    textBottomY,
+    content.year.trim() ? yearY + yearFontSize * 0.3 : 0,
+  );
+  const descriptionY = detailsBottomY + 90 * scale;
   const descriptionFontSize =
     30 * scale * settings.typography.customDescriptionScale;
   const descriptionLineHeight =
@@ -161,6 +175,16 @@ export function EditorialComposition({
       >
         {truncateLabel(content.title || 'UNTITLED', titleCharacters)}
       </text>
+      {showPalette && (
+        <ArtworkPalette
+          palette={artwork?.palette}
+          x={margin}
+          y={paletteY}
+          width={contentWidth * 0.68}
+          height={paletteHeight}
+          gap={12 * scale}
+        />
+      )}
       {hasSubtitle && (
         <text
           data-custom-typography="subtitle"
@@ -191,7 +215,7 @@ export function EditorialComposition({
         <text
           data-custom-typography="year"
           x={width - margin}
-          y={subtitleY}
+          y={yearY}
           fill={colors.foreground}
           fontFamily={SANS}
           fontSize={yearFontSize}

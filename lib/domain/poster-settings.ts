@@ -14,6 +14,7 @@ export const posterSettingsSchema = z.object({
   showReleaseDate: z.boolean(),
   showTotalRuntime: z.boolean(),
   showWaveform: z.boolean(),
+  showArtworkPalette: z.boolean().default(true),
   showAlbumCode: z.boolean(),
   albumCodeUrl: z.string().max(2048),
   albumCodePosition: z.enum(QR_CODE_POSITIONS),

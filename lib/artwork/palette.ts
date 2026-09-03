@@ -6,6 +6,17 @@ export const DEFAULT_ARTWORK_PALETTE = [
   '#df8a52',
 ] as const;
 
+export function normalizeArtworkPalette(
+  palette: string[] | undefined,
+): string[] {
+  const colors = (palette ?? []).filter((color) =>
+    /^#[0-9a-f]{6}$/i.test(color),
+  );
+  return [...colors, ...DEFAULT_ARTWORK_PALETTE]
+    .filter((color, index, all) => all.indexOf(color) === index)
+    .slice(0, 5);
+}
+
 interface ColorBucket {
   red: number;
   green: number;

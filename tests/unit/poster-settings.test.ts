@@ -3,6 +3,18 @@ import { DEFAULT_POSTER_SETTINGS } from '@/lib/config/print-formats';
 import { validatePosterSettings } from '@/lib/domain/poster-settings';
 import { POSTER_TEMPLATE_IDS, type PosterSettings } from '@/types/poster';
 describe('poster settings validation', () => {
+  it('defaults older settings to a visible palette and preserves an explicit choice', () => {
+    const legacy: Partial<PosterSettings> = { ...DEFAULT_POSTER_SETTINGS };
+    delete legacy.showArtworkPalette;
+    expect(validatePosterSettings(legacy).showArtworkPalette).toBe(true);
+    expect(
+      validatePosterSettings({ ...legacy, showArtworkPalette: false })
+        .showArtworkPalette,
+    ).toBe(false);
+    expect(() =>
+      validatePosterSettings({ ...legacy, showArtworkPalette: 'false' }),
+    ).toThrow();
+  });
   it('accepts defaults', () =>
     expect(validatePosterSettings(DEFAULT_POSTER_SETTINGS)).toEqual(
       DEFAULT_POSTER_SETTINGS,

@@ -1,4 +1,4 @@
-import { DEFAULT_ARTWORK_PALETTE } from '@/lib/artwork/palette';
+import { normalizeArtworkPalette } from '@/lib/artwork/palette';
 import { PRINT_FORMATS } from '@/lib/config/print-formats';
 import { formatRuntime, totalRuntime } from '@/lib/domain/duration';
 import { normalizePosterLink } from '@/lib/domain/poster-link';
@@ -6,6 +6,7 @@ import { wrapTextLines } from '@/lib/domain/text-layout';
 import { AlbumCodeMark, WaveformMark } from '@/templates/classic/PosterFooter';
 import { getPosterScale, truncateLabel } from '@/templates/classic/layout';
 import { createAlbumCodeMatrix } from '@/templates/classic/marks';
+import { ArtworkPalette } from '@/templates/shared/ArtworkPalette';
 import { PosterArtwork, SANS, TrackList } from '@/templates/shared/elements';
 import type { PosterTemplateProps } from '@/templates/types';
 
@@ -62,10 +63,9 @@ export function ChromaticIndexTemplate({
   const waveformX = showCode
     ? codeX - waveformWidth - 34 * scale
     : width - margin - waveformWidth;
-  const palette = normalizePalette(artwork?.palette);
+  const palette = normalizeArtworkPalette(artwork?.palette);
   const swatchGap = 12 * scale;
   const paletteWidth = Math.min(contentWidth * 0.42, 710 * scale);
-  const swatchWidth = (paletteWidth - swatchGap * 4) / 5;
   const metadataItems = [
     settings.showReleaseDate
       ? {
@@ -162,18 +162,16 @@ export function ChromaticIndexTemplate({
         </text>
       )}
 
-      <g data-artwork-palette={palette.join(',')}>
-        {palette.map((color, index) => (
-          <rect
-            key={`${color}-${index}`}
-            x={margin + index * (swatchWidth + swatchGap)}
-            y={mediaY - 24 * scale}
-            width={swatchWidth}
-            height={34 * scale}
-            fill={color}
-          />
-        ))}
-      </g>
+      {settings.showArtworkPalette !== false && (
+        <ArtworkPalette
+          palette={palette}
+          x={margin}
+          y={mediaY - 24 * scale}
+          width={paletteWidth}
+          height={34 * scale}
+          gap={swatchGap}
+        />
+      )}
       {settings.showWaveform && (
         <WaveformMark
           x={waveformX}
@@ -290,15 +288,6 @@ export function ChromaticIndexTemplate({
       />
     </svg>
   );
-}
-
-function normalizePalette(palette: string[] | undefined): string[] {
-  const colors = (palette ?? []).filter((color) =>
-    /^#[0-9a-f]{6}$/i.test(color),
-  );
-  return [...colors, ...DEFAULT_ARTWORK_PALETTE]
-    .filter((color, index, all) => all.indexOf(color) === index)
-    .slice(0, 5);
 }
 
 export function getCodeVisibleRightEdge(
