@@ -1,5 +1,6 @@
 import type { MusicProvider } from './provider';
 import { MusicBrainzProvider } from './musicbrainz';
+import { configuredProviderId as resolveProviderId } from '@/lib/config/provider-id';
 
 type MusicProviderId = 'musicbrainz';
 
@@ -8,7 +9,10 @@ const providerFactories: Record<MusicProviderId, () => MusicProvider> = {
 };
 
 function configuredProviderId(): MusicProviderId {
-  const configured = process.env.MUSIC_PROVIDER ?? 'musicbrainz';
+  const configured = resolveProviderId(
+    process.env.MUSIC_PROVIDER,
+    'musicbrainz',
+  );
   if (isMusicProviderId(configured)) return configured;
   throw new Error(`Unsupported music provider: ${configured}`);
 }

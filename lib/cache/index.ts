@@ -1,5 +1,6 @@
 import { MemoryCacheProvider } from './memory';
 import type { CacheProvider } from './provider';
+import { configuredProviderId } from '@/lib/config/provider-id';
 
 type CacheProviderId = 'memory';
 
@@ -7,7 +8,7 @@ const factories: Record<CacheProviderId, () => CacheProvider> = {
   memory: () => new MemoryCacheProvider(),
 };
 
-const configured = process.env.CACHE_PROVIDER ?? 'memory';
+const configured = configuredProviderId(process.env.CACHE_PROVIDER, 'memory');
 if (!isCacheProviderId(configured)) {
   throw new Error(`Unsupported cache provider: ${configured}`);
 }

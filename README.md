@@ -125,6 +125,10 @@ Open `http://localhost:3000`. Before a public deployment, configure a truthful M
 | `TRUST_PROXY_HEADERS`             | false                       | Trust verified proxy client-IP headers |
 | `NEXT_PUBLIC_ARTWORK_MAX_FILE_MB` | 20                          | Local artwork file-size limit          |
 
+Provider variables may be omitted for the built-in defaults. Empty values—such
+as environment-variable placeholders created by a hosting platform—also use
+these defaults. Unknown non-empty provider names remain configuration errors.
+
 ## Commands
 
 ```bash
