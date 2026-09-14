@@ -7,6 +7,8 @@ Poster Studio is a source-available Next.js application for creating print-ready
 
 Artwork is processed locally in the browser. The application does not upload it, persist it, search for it, or retrieve copyrighted images from third-party artwork services.
 
+**Live demo:** [Try Poster Studio in your browser](https://poster-studio-iizb-lilac.vercel.app/)
+
 ![Poster Studio desktop workspace in English](./docs/screenshots/poster-studio-desktop-en.jpg)
 
 <p align="center">
