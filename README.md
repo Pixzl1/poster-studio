@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./public/unraid-icon.png" width="128" alt="Poster Studio logo" />
+</p>
+
 # Poster Studio
 
 Poster Studio is a source-available Next.js application for creating print-ready posters from artwork supplied by the user. It provides two first-class workflows:

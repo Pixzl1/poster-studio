@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="52" y="37" width="408" height="456" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="104" fill="#171716" />
+  <rect x="10" y="10" width="492" height="492" rx="94" stroke="#323230" stroke-width="4" />
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="54" width="348" height="404" rx="30" fill="#FAFAF7" />
+    <rect x="84" y="56" width="344" height="400" rx="28" stroke="#D9D9D3" stroke-width="4" />
+  </g>
+
+  <g transform="translate(120 86) scale(12.35)">
+    <path d="M22 19.2727C22 20.779 20.779 22 19.2727 22H14.7273C13.221 22 12 20.779 12 19.2727V12H19.2727C20.779 12 22 13.221 22 14.7273V19.2727Z" fill="#68C4FF" />
+    <path d="M20 2C21.1046 2 22 2.89543 22 4V7C22 8.10457 21.1046 9 20 9H17C15.8954 9 15 8.10457 15 7V4C15 2.89543 15.8954 2 17 2H20Z" fill="#0C79D8" />
+    <path d="M7 15C8.10457 15 9 15.8954 9 17V20C9 21.1046 8.10457 22 7 22H4C2.89543 22 2 21.1046 2 20V17C2 15.8954 2.89543 15 4 15H7Z" fill="#0C79D8" />
+    <path d="M12 12H4.72727C3.22104 12 2 10.779 2 9.27273V4.72727C2 3.22104 3.22104 2 4.72727 2H9.27273C10.779 2 12 3.221 12 4.72727V12Z" fill="#2E9EFF" />
+  </g>
+
+  <rect x="120" y="377" width="150" height="14" rx="7" fill="#242423" />
+  <rect x="120" y="405" width="213" height="10" rx="5" fill="#A7A7A1" />
+  <circle cx="366" cy="384" r="12" fill="#2E9EFF" />
+  <rect x="388" y="372" width="4" height="24" rx="2" fill="#242423" />
+  <rect x="398" y="366" width="4" height="36" rx="2" fill="#242423" />
+  <rect x="408" y="375" width="4" height="18" rx="2" fill="#242423" />
+</svg>

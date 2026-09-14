@@ -12,7 +12,7 @@
   <Category>Tools: Productivity:</Category>
   <WebUI>http://[IP]:[PORT:3000]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/Pixzl1/poster-studio/main/unraid/poster-studio.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/Pixzl1/poster-studio/main/public/favicon.svg</Icon>
+  <Icon>https://raw.githubusercontent.com/Pixzl1/poster-studio/main/public/unraid-icon.png</Icon>
   <ExtraParams>--pull=always</ExtraParams>
   <PostArgs />
   <CPUset />
@@ -25,4 +25,3 @@
   <Config Name="MusicBrainz User Agent" Target="MUSICBRAINZ_USER_AGENT" Default="PosterStudio/1.0 (https://github.com/Pixzl1/poster-studio)" Mode="" Description="Identifies this installation when it requests metadata from MusicBrainz." Type="Variable" Display="advanced" Required="true" Mask="false">PosterStudio/1.0 (https://github.com/Pixzl1/poster-studio)</Config>
   <Config Name="Trust Proxy Headers" Target="TRUST_PROXY_HEADERS" Default="false" Mode="" Description="Enable only behind a trusted reverse proxy that sanitizes forwarding headers." Type="Variable" Display="advanced" Required="true" Mask="false">false</Config>
 </Container>
-
