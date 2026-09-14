@@ -81,6 +81,12 @@ describe('poster project validation', () => {
         settings: { ...music.settings, template: 'editorial-white' },
       }).success,
     ).toBe(false);
+    expect(
+      posterProjectSchema.safeParse({
+        ...music,
+        settings: { ...music.settings, template: 'lyrics-record-light' },
+      }).success,
+    ).toBe(false);
 
     const custom = createCustomProject();
     expect(
@@ -89,5 +95,21 @@ describe('poster project validation', () => {
         settings: { ...custom.settings, template: 'editorial-white' },
       }).success,
     ).toBe(true);
+    expect(
+      posterProjectSchema.safeParse({
+        ...custom,
+        settings: { ...custom.settings, template: 'lyrics-record-dark' },
+      }).success,
+    ).toBe(true);
+  });
+
+  it('accepts longer lyrics without changing the other Custom content fields', () => {
+    const content = {
+      ...createCustomProject().content,
+      description: 'lyric '.repeat(1100),
+    };
+
+    expect(content.description.length).toBeGreaterThan(2000);
+    expect(customPosterContentSchema.safeParse(content).success).toBe(true);
   });
 });

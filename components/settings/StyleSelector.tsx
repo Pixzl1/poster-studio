@@ -22,8 +22,16 @@ export function StyleSelector({
     <div className="grid grid-cols-2 gap-2.5">
       {(mode === 'custom'
         ? [
-            { id: 'editorial-dark' as const, label: 'Editorial Dark' },
             { id: 'editorial-white' as const, label: 'Editorial White' },
+            { id: 'editorial-dark' as const, label: 'Editorial Dark' },
+            {
+              id: 'lyrics-record-light' as const,
+              label: 'Lyrics Record Light',
+            },
+            {
+              id: 'lyrics-record-dark' as const,
+              label: 'Lyrics Record Dark',
+            },
           ]
         : styles
       ).map((style) => {

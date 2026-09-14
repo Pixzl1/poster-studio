@@ -24,23 +24,25 @@ Artwork is processed locally in the browser. The application does not upload it,
   </p>
 </details>
 
-## Latest update — September 3, 2026
+## Latest update — September 14, 2026
 
-### Artwork color bars / Farbpaletten
+### Lyrics Record posters / Liedtext-Poster
 
 **English**
 
-- **Editorial Dark** and **Editorial White** now feature a five-color bar below the title, using colors extracted locally from your uploaded artwork, just like **Chromatic Index**.
-- Use **Show color bar** below the style selector to hide or show the bar in all three templates. It is enabled by default and the choice also applies to PNG/PDF exports.
-- Editorial subtitles, creator details, and descriptions move up when the bar is hidden. Spacing and year alignment have been adjusted to fit the new layout.
-- Existing print formats, DPI options, QR codes, and local-only artwork processing remain available. Regression tests cover palette colors, visibility, layout spacing, and settings compatibility.
+- The new **Lyrics Record Light** and **Lyrics Record Dark** Custom templates arrange user-supplied lyrics as concentric record grooves around the uploaded artwork.
+- Add song title, artist, record label, release information, optional dedication, metadata, and a locally generated QR code. The center record hole can be shown or hidden.
+- Long lyrics are fitted without silently dropping text. Matching groove and text radii, near-closed circles, subtle separators, and responsive layout calculation keep preview and PNG/PDF export consistent.
+- Typography controls cover title, song details, lyrics, dedication, and metadata. Empty dedication fields no longer leave decorative lines behind.
+- Artwork and lyrics remain local to the browser. Lyrics are never retrieved from an external service; users must only use text and images they are permitted to use.
 
 **Deutsch**
 
-- **Editorial Dark** und **Editorial White** haben jetzt eine fünfteilige Farbbar unter dem Titel. Die Farben werden wie beim **Chromatic Index** lokal aus deinem hochgeladenen Bild ermittelt.
-- Unter der Stilauswahl kannst du die Leiste mit **Farbbar anzeigen** in allen drei Vorlagen ein- und ausblenden. Sie ist standardmäßig sichtbar; die Auswahl gilt auch für PNG-/PDF-Exporte.
-- Beim Ausblenden rücken Untertitel, Creator und Beschreibung der Editorial-Poster nach oben. Abstände und Jahresausrichtung wurden an das neue Layout angepasst.
-- Vorhandene Druckformate, DPI-Optionen, QR-Codes und die lokale Bildverarbeitung bleiben erhalten. Regressionstests prüfen Farben, Sichtbarkeit, Abstände und die Kompatibilität der Einstellungen.
+- Die neuen Custom-Vorlagen **Lyrics Record Light** und **Lyrics Record Dark** setzen vom Benutzer eingegebene Liedtexte als konzentrische Plattenrillen um das hochgeladene Bild.
+- Songtitel, Artist, Plattenlabel, Veröffentlichungsangaben, optionale Widmung, Metadaten und ein lokal erzeugter QR-Code können ergänzt werden. Das Plattenloch lässt sich ein- oder ausblenden.
+- Lange Liedtexte werden eingepasst, ohne Text unbemerkt abzuschneiden. Identische Radien für Schrift und Rillen, nahezu geschlossene Kreise, dezente Trenner und eine schnelle Layoutberechnung halten Vorschau und PNG-/PDF-Export konsistent.
+- Die Typografie lässt sich getrennt für Titel, Songdetails, Liedtext, Widmung und Metadaten einstellen. Bei leerer Widmung werden auch die dekorativen Linien ausgeblendet.
+- Bilder und Liedtexte verbleiben lokal im Browser. Liedtexte werden nicht von externen Diensten abgerufen; Benutzer dürfen nur Inhalte verwenden, zu deren Nutzung sie berechtigt sind.
 
 ## Highlights
 
@@ -51,7 +53,7 @@ Artwork is processed locally in the browser. The application does not upload it,
 - Fully manual music workflow and editable imported tracklists
 - Row editing, deletion, drag reordering, and bulk-text track import
 - Dedicated `MusicPosterContent` and `CustomPosterContent` models in a discriminated `PosterProject` union
-- Six visible music styles, including the artwork-derived **Chromatic Index**, with additional work-in-progress templates retained in the registry, plus **Editorial Dark** and **Editorial White** for Custom posters
+- Six visible music styles, including the artwork-derived **Chromatic Index**, with additional work-in-progress templates retained in the registry, plus four Custom templates: **Editorial White**, **Editorial Dark**, **Lyrics Record Light**, and **Lyrics Record Dark**
 - Optional scan-ready QR codes generated locally from a user-provided music-service link
 - One canonical SVG rendering pipeline for live preview, PNG, and exact-page-size PDF
 - A4, A3, 30×40 cm, 40×50 cm, 50×70 cm, and US Letter at 150 or 300 DPI
@@ -95,7 +97,7 @@ MusicBrainz supplies metadata only: title, artist, release date/year, release ty
 
 1. Upload local artwork.
 2. Enter any combination of title, subtitle, creator/studio/publisher, category, year, description, and label/value metadata.
-3. Choose **Editorial Dark** or **Editorial White** and configure format, margin, artwork framing, and DPI.
+3. Choose an Editorial or Lyrics Record template and configure format, margin, artwork framing, typography, and DPI.
 4. Export PNG or PDF.
 
 Gaming, movies, series, books, fan art, photography, events, and personal work are content categories on top of the same Custom architecture—not separate rendering systems.
@@ -162,6 +164,12 @@ Create an isolated component under `templates/<name>/`, accept the shared music 
 ### Add a Custom template
 
 Create a component accepting `CustomPosterTemplateProps`, reuse `PosterArtwork`, register it in `CUSTOM_POSTER_TEMPLATES`, and keep all rendering inside the canonical SVG pipeline.
+
+The included **Lyrics Record Light** and **Lyrics Record Dark** templates turn
+user-entered lyrics into circular record grooves. Song details, an optional
+dedication, optional metadata, local artwork, typography controls, QR codes,
+and the existing PNG/PDF export pipeline are supported. Lyrics are supplied by
+the user and are never fetched from an external service.
 
 ### Add a Custom preset or category
 
@@ -249,7 +257,7 @@ Ein Speicherpfad ist nicht erforderlich: Hochgeladene Bilder verbleiben im Brows
 - Object URLs intentionally do not survive a closed browser session.
 - Touch-friendly row controls are available, while freeform drag behavior depends on the browser.
 - The default cache, rate limiter, and request scheduler are process-local.
-- Custom mode currently includes Editorial Dark and Editorial White.
+- Custom mode currently includes Editorial White, Editorial Dark, Lyrics Record Light, and Lyrics Record Dark.
 
 ## Support Poster Studio
 

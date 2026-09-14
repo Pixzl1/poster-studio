@@ -19,6 +19,8 @@ export const POSTER_TEMPLATE_IDS = [
   'bloom',
   'editorial-dark',
   'editorial-white',
+  'lyrics-record-light',
+  'lyrics-record-dark',
 ] as const;
 export type PosterTemplateId = (typeof POSTER_TEMPLATE_IDS)[number];
 export type PosterDpi = 150 | 300;
@@ -51,6 +53,7 @@ export interface PosterSettings {
   showTotalRuntime: boolean;
   showWaveform: boolean;
   showArtworkPalette: boolean;
+  showRecordHole: boolean;
   showAlbumCode: boolean;
   albumCodeUrl: string;
   albumCodePosition: QrCodePosition;

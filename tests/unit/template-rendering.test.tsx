@@ -213,6 +213,193 @@ describe('poster template rendering', () => {
     },
   );
 
+  it.each(['lyrics-record-light', 'lyrics-record-dark'] as const)(
+    'renders user-provided lyrics as circular SVG text in %s',
+    (template) => {
+      const Template = CUSTOM_POSTER_TEMPLATES[template].component;
+      const markup = renderToStaticMarkup(
+        <Template
+          content={{
+            title: 'Orbital Heart',
+            subtitle: 'For every journey we share',
+            creator: 'Nova Vale',
+            category: 'North Star Records',
+            year: '16 January 2026',
+            description:
+              'We follow the light across the open sky and carry every memory home. '.repeat(
+                14,
+              ),
+            metadata: [
+              { id: 'occasion', label: 'Occasion', value: 'Birthday' },
+            ],
+          }}
+          artwork={{
+            ...artwork,
+            palette: ['#12191c', '#d35a4c', '#dcb264', '#6b9f9b', '#efe8d8'],
+          }}
+          artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+          settings={{
+            ...DEFAULT_POSTER_SETTINGS,
+            template,
+            albumCodeUrl: 'https://example.com/song',
+          }}
+        />,
+      );
+
+      expect(markup).toContain('data-circular-lyrics="true"');
+      expect(markup).toContain('data-custom-typography="description"');
+      expect(markup.match(/<textPath/g)?.length).toBeGreaterThan(2);
+      expect(markup).toContain('data-record-grooves="true"');
+      expect(markup).toContain('ORBITAL HEART');
+      expect(markup).toContain('NOVA VALE');
+      expect(markup).toContain('NORTH STAR RECORDS');
+      expect(markup).toContain('16 January 2026');
+      expect(markup).toContain('FOR EVERY JOURNEY WE SHARE');
+      expect(markup).toContain('data-export-href="blob:local-artwork"');
+      expect(markup).toContain('data-album-code="qr"');
+      expect(markup).not.toMatch(/NaN|Infinity/);
+    },
+  );
+
+  it('keeps the Lyrics Record layout stable at its typography extremes', () => {
+    const Template = CUSTOM_POSTER_TEMPLATES['lyrics-record-light'].component;
+    const markup = renderToStaticMarkup(
+      <Template
+        content={{
+          title: 'Friends',
+          subtitle: 'Forever',
+          creator: 'Aura Dione feat. Rock Mafia',
+          category: '',
+          year: '2026',
+          description: 'Short lyrics still need a deliberate record layout.',
+          metadata: [],
+        }}
+        artwork={artwork}
+        artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+        settings={{
+          ...DEFAULT_POSTER_SETTINGS,
+          template: 'lyrics-record-light',
+          typography: {
+            ...DEFAULT_POSTER_SETTINGS.typography,
+            customTitleScale: 0.6,
+            customSubtitleScale: 1.5,
+            customDescriptionScale: 3,
+          },
+        }}
+      />,
+    );
+
+    const separatorY = Number(
+      markup.match(/data-header-separator="true"[^>]*y1="([^"]+)"/)?.[1],
+    );
+    const yearY = Number(
+      markup.match(/data-custom-typography="year"[^>]*y="([^"]+)"/)?.[1],
+    );
+    const accentY = Number(
+      markup.match(
+        /data-accent-alignment="separator"[\s\S]*?<circle[^>]*cy="([^"]+)"/,
+      )?.[1],
+    );
+    const dedicationY = Number(
+      markup.match(/data-dedication-center="([^"]+)"/)?.[1],
+    );
+    const topLineY = Number(
+      markup.match(
+        /data-dedication-line="top"[^>]*data-line-position="([^"]+)"/,
+      )?.[1],
+    );
+    const bottomLineY = Number(
+      markup.match(
+        /data-dedication-line="bottom"[^>]*data-line-position="([^"]+)"/,
+      )?.[1],
+    );
+    const grooveMarkup = markup.match(
+      /data-record-grooves="true"[\s\S]*?<\/g>/,
+    )?.[0];
+
+    expect(markup).toContain('<rect width="2100" height="2970" fill="#ffffff"');
+    expect(separatorY).toBeGreaterThan(yearY);
+    expect(accentY).toBe(separatorY);
+    expect(dedicationY - topLineY).toBeCloseTo(bottomLineY - dedicationY, 5);
+    expect(grooveMarkup?.match(/<circle/g)?.length).toBe(15);
+    expect(markup.match(/<textPath/g)?.length).toBeGreaterThanOrEqual(3);
+    expect(markup).not.toMatch(/NaN|Infinity/);
+  });
+
+  it('keeps long lyrics complete and fills the available rings evenly', () => {
+    const Template = CUSTOM_POSTER_TEMPLATES['lyrics-record-light'].component;
+    const lyrics =
+      'A complete line with natural words and punctuation. '.repeat(140);
+    const markup = renderToStaticMarkup(
+      <Template
+        content={{
+          title: 'Long form',
+          subtitle: '   ',
+          creator: 'Artist',
+          category: '',
+          year: '',
+          description: lyrics,
+          metadata: [],
+        }}
+        artwork={artwork}
+        artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+        settings={{
+          ...DEFAULT_POSTER_SETTINGS,
+          template: 'lyrics-record-light',
+          typography: {
+            ...DEFAULT_POSTER_SETTINGS.typography,
+            customDescriptionScale: 1.5,
+          },
+        }}
+      />,
+    );
+    const grooveMarkup = markup.match(
+      /data-record-grooves="true"[\s\S]*?<\/g>/,
+    )?.[0];
+    const lyricMarkup = markup.match(
+      /data-circular-lyrics="true"[\s\S]*?<\/g>/,
+    )?.[0];
+    const grooveCount = grooveMarkup?.match(/<circle/g)?.length;
+    const lyricRingCount = lyricMarkup?.match(/<textPath/g)?.length;
+
+    expect(lyrics.length).toBeGreaterThan(6000);
+    expect(markup).toContain('data-lyrics-auto-fitted="true"');
+    expect(markup).toContain('textLength=');
+    expect(markup).toContain('data-lyrics-separator="true"');
+    expect(grooveCount).toBe(lyricRingCount);
+    expect(markup).not.toContain('data-dedication="true"');
+    expect(markup).not.toContain('data-dedication-line=');
+    expect(markup).not.toContain('data-lyrics-truncated="true"');
+    expect(markup).not.toContain('…');
+  });
+
+  it('can hide the record hole without removing the center artwork', () => {
+    const Template = CUSTOM_POSTER_TEMPLATES['lyrics-record-dark'].component;
+    const markup = renderToStaticMarkup(
+      <Template
+        content={{
+          title: 'Portrait Song',
+          subtitle: '',
+          creator: 'Artist',
+          category: '',
+          year: '',
+          description: 'Lyrics',
+          metadata: [],
+        }}
+        artwork={artwork}
+        artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+        settings={{
+          ...DEFAULT_POSTER_SETTINGS,
+          template: 'lyrics-record-dark',
+          showRecordHole: false,
+        }}
+      />,
+    );
+
+    expect(markup).not.toContain('data-record-hole="true"');
+    expect(markup).toContain('data-export-href="blob:local-artwork"');
+  });
+
   it('renders a real QR mark only for a valid configured link', () => {
     const markup = renderToStaticMarkup(
       <MUSIC_POSTER_TEMPLATES.classic.component

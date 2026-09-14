@@ -12,47 +12,58 @@ export function CustomContentEditor({
   onChange(project: CustomPosterProject): void;
 }) {
   const { t } = useLanguage();
+  const isLyricsRecord =
+    project.settings.template === 'lyrics-record-light' ||
+    project.settings.template === 'lyrics-record-dark';
   const update = (patch: Partial<CustomPosterProject['content']>) =>
     onChange({ ...project, content: { ...project.content, ...patch } });
   return (
     <section>
       <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
-        {t('custom.content')}
+        {t(isLyricsRecord ? 'custom.songContent' : 'custom.content')}
       </h3>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <Field
-          label={t('custom.title')}
+          label={t(isLyricsRecord ? 'custom.songName' : 'custom.title')}
           value={project.content.title}
           onChange={(title) => update({ title })}
         />
         <Field
-          label={t('custom.subtitle')}
+          label={t(isLyricsRecord ? 'custom.dedication' : 'custom.subtitle')}
           value={project.content.subtitle}
           onChange={(subtitle) => update({ subtitle })}
         />
         <Field
-          label={t('custom.creator')}
+          label={t(isLyricsRecord ? 'custom.artist' : 'custom.creator')}
           value={project.content.creator}
           onChange={(creator) => update({ creator })}
         />
         <Field
-          label={t('custom.category')}
+          label={t(isLyricsRecord ? 'custom.recordLabel' : 'custom.category')}
           value={project.content.category}
           onChange={(category) => update({ category })}
         />
         <Field
-          label={t('custom.year')}
+          label={t(isLyricsRecord ? 'custom.release' : 'custom.year')}
           value={project.content.year}
           onChange={(year) => update({ year })}
         />
       </div>
       <label className="mt-3 block text-xs text-[var(--muted)]">
-        <span>{t('custom.description')}</span>
+        <span>
+          {t(isLyricsRecord ? 'custom.lyrics' : 'custom.description')}
+        </span>
         <textarea
           className="mt-1.5 min-h-28 w-full rounded-md border border-[var(--border)] p-3 text-sm text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           value={project.content.description}
+          maxLength={12000}
           onChange={(event) => update({ description: event.target.value })}
         />
+        {isLyricsRecord && (
+          <span className="mt-1.5 block text-[11px] leading-relaxed">
+            {t('custom.lyricsHelp')}
+          </span>
+        )}
       </label>
       <div className="mt-6">
         <div className="flex items-center justify-between">

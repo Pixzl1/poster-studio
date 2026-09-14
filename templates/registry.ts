@@ -9,6 +9,8 @@ import { PaperTemplate } from './paper/PaperTemplate';
 import { SandTemplate } from './sand/SandTemplate';
 import { EditorialDarkTemplate } from './editorial-dark/EditorialDarkTemplate';
 import { EditorialWhiteTemplate } from './editorial-white/EditorialWhiteTemplate';
+import { LyricsRecordDarkTemplate } from './lyrics-record/LyricsRecordDarkTemplate';
+import { LyricsRecordLightTemplate } from './lyrics-record/LyricsRecordLightTemplate';
 import type {
   CustomPosterTemplateDefinition,
   PosterTemplateDefinition,
@@ -40,9 +42,25 @@ export const CUSTOM_POSTER_TEMPLATES = {
     name: 'Editorial White',
     component: EditorialWhiteTemplate,
   },
+  'lyrics-record-light': {
+    id: 'lyrics-record-light',
+    name: 'Lyrics Record Light',
+    component: LyricsRecordLightTemplate,
+  },
+  'lyrics-record-dark': {
+    id: 'lyrics-record-dark',
+    name: 'Lyrics Record Dark',
+    component: LyricsRecordDarkTemplate,
+  },
 } satisfies Record<string, CustomPosterTemplateDefinition>;
 
 export const POSTER_TEMPLATES = {
   ...MUSIC_POSTER_TEMPLATES,
   ...CUSTOM_POSTER_TEMPLATES,
 };
+
+export function isCustomPosterTemplateId(
+  value: string,
+): value is keyof typeof CUSTOM_POSTER_TEMPLATES {
+  return Object.hasOwn(CUSTOM_POSTER_TEMPLATES, value);
+}

@@ -18,6 +18,8 @@ type TypographyKey = keyof PosterTypographySettings;
 
 export function TypographyControls({ mode, template, value, onChange }: Props) {
   const { t } = useLanguage();
+  const isLyricsRecord =
+    template === 'lyrics-record-light' || template === 'lyrics-record-dark';
   const controls: Array<{
     key: TypographyKey;
     label: Parameters<typeof t>[0];
@@ -26,13 +28,28 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
       ? [{ key: 'musicTitleScale', label: 'typography.title' }]
       : [
           { key: 'customTitleScale', label: 'typography.title' },
-          { key: 'customSubtitleScale', label: 'typography.subtitle' },
-          { key: 'customCreatorScale', label: 'typography.creator' },
+          {
+            key: 'customSubtitleScale',
+            label: isLyricsRecord
+              ? 'typography.dedication'
+              : 'typography.subtitle',
+          },
+          {
+            key: 'customCreatorScale',
+            label: isLyricsRecord ? 'typography.artist' : 'typography.creator',
+          },
           {
             key: 'customDescriptionScale',
-            label: 'typography.description',
+            label: isLyricsRecord
+              ? 'typography.lyrics'
+              : 'typography.description',
           },
-          { key: 'customMetadataScale', label: 'typography.metadata' },
+          {
+            key: 'customMetadataScale',
+            label: isLyricsRecord
+              ? 'typography.details'
+              : 'typography.metadata',
+          },
         ];
 
   if (
@@ -48,6 +65,10 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
     <div className="space-y-4">
       {controls.map((control) => {
         const percentage = Math.round(value[control.key] * 100);
+        const maximum =
+          isLyricsRecord && control.key === 'customDescriptionScale'
+            ? 300
+            : 150;
         return (
           <label className="block" key={control.key}>
             <span className="mb-2 flex items-center justify-between gap-4 text-xs text-[var(--muted)]">
@@ -58,7 +79,7 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
               className="w-full"
               type="range"
               min="60"
-              max="150"
+              max={maximum}
               step="5"
               value={percentage}
               onChange={(event) =>

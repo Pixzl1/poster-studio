@@ -15,7 +15,7 @@ describe('style selector', () => {
     expect(markup).not.toContain('Onyx');
   });
 
-  it('offers both editorial custom styles', () => {
+  it('offers editorial and lyrics record custom styles', () => {
     const markup = renderToStaticMarkup(
       <StyleSelector
         value="editorial-white"
@@ -25,5 +25,10 @@ describe('style selector', () => {
     );
     expect(markup).toContain('Editorial Dark');
     expect(markup).toContain('Editorial White');
+    expect(markup).toContain('Lyrics Record Light');
+    expect(markup).toContain('Lyrics Record Dark');
+    expect(markup.indexOf('Editorial White')).toBeLessThan(
+      markup.indexOf('Editorial Dark'),
+    );
   });
 });

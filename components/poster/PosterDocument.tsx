@@ -1,5 +1,6 @@
 import {
   CUSTOM_POSTER_TEMPLATES,
+  isCustomPosterTemplateId,
   MUSIC_POSTER_TEMPLATES,
 } from '@/templates/registry';
 import type { AlbumData } from '@/types/music';
@@ -13,10 +14,9 @@ export function PosterDocument({
   className?: string;
 }) {
   if (project.mode === 'custom') {
-    const templateId =
-      project.settings.template === 'editorial-white'
-        ? 'editorial-white'
-        : 'editorial-dark';
+    const templateId = isCustomPosterTemplateId(project.settings.template)
+      ? project.settings.template
+      : 'editorial-dark';
     const Template = CUSTOM_POSTER_TEMPLATES[templateId].component;
     return (
       <Template
@@ -29,10 +29,9 @@ export function PosterDocument({
     );
   }
   const templateId = project.settings.template;
-  const definition =
-    templateId === 'editorial-dark' || templateId === 'editorial-white'
-      ? MUSIC_POSTER_TEMPLATES.classic
-      : MUSIC_POSTER_TEMPLATES[templateId];
+  const definition = isCustomPosterTemplateId(templateId)
+    ? MUSIC_POSTER_TEMPLATES.classic
+    : MUSIC_POSTER_TEMPLATES[templateId];
   const Template = definition.component;
   return (
     <Template

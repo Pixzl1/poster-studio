@@ -15,6 +15,15 @@ describe('poster settings validation', () => {
       validatePosterSettings({ ...legacy, showArtworkPalette: 'false' }),
     ).toThrow();
   });
+  it('defaults older settings to a visible record hole and preserves an explicit choice', () => {
+    const legacy: Partial<PosterSettings> = { ...DEFAULT_POSTER_SETTINGS };
+    delete legacy.showRecordHole;
+    expect(validatePosterSettings(legacy).showRecordHole).toBe(true);
+    expect(
+      validatePosterSettings({ ...legacy, showRecordHole: false })
+        .showRecordHole,
+    ).toBe(false);
+  });
   it('accepts defaults', () =>
     expect(validatePosterSettings(DEFAULT_POSTER_SETTINGS)).toEqual(
       DEFAULT_POSTER_SETTINGS,
@@ -27,16 +36,16 @@ describe('poster settings validation', () => {
     expect(() =>
       validatePosterSettings({ ...DEFAULT_POSTER_SETTINGS, marginMm: 100 }),
     ).toThrow());
-  it('accepts safe typography scales and rejects values outside the UI range', () => {
+  it('accepts the extended lyrics scale without extending other typography ranges', () => {
     expect(
       validatePosterSettings({
         ...DEFAULT_POSTER_SETTINGS,
         typography: {
           ...DEFAULT_POSTER_SETTINGS.typography,
-          customDescriptionScale: 1.5,
+          customDescriptionScale: 3,
         },
       }).typography.customDescriptionScale,
-    ).toBe(1.5);
+    ).toBe(3);
     expect(() =>
       validatePosterSettings({
         ...DEFAULT_POSTER_SETTINGS,

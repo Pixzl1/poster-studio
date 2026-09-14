@@ -32,7 +32,7 @@ export const customPosterContentSchema = z.object({
   category: z.string().max(120),
   creator: z.string().max(240),
   year: z.string().max(40),
-  description: z.string().max(2000),
+  description: z.string().max(12000),
   metadata: z
     .array(
       z.object({
@@ -67,11 +67,17 @@ export const posterProjectSchema = z
   .refine(
     (project) =>
       project.mode === 'custom'
-        ? ['editorial-dark', 'editorial-white'].includes(
-            project.settings.template,
-          )
-        : !['editorial-dark', 'editorial-white'].includes(
-            project.settings.template,
-          ),
+        ? [
+            'editorial-dark',
+            'editorial-white',
+            'lyrics-record-light',
+            'lyrics-record-dark',
+          ].includes(project.settings.template)
+        : ![
+            'editorial-dark',
+            'editorial-white',
+            'lyrics-record-light',
+            'lyrics-record-dark',
+          ].includes(project.settings.template),
     { message: 'The selected template does not support this poster mode.' },
   );
