@@ -1,6 +1,6 @@
 import { PRINT_FORMATS } from '@/lib/config/print-formats';
 import { normalizePosterLink } from '@/lib/domain/poster-link';
-import { wrapText } from '@/lib/domain/text-layout';
+import { wrapTextByWidth } from '@/lib/domain/text-layout';
 import { AlbumCodeMark } from '@/templates/classic/PosterFooter';
 import { getPosterScale, truncateLabel } from '@/templates/classic/layout';
 import { ArtworkPalette } from '@/templates/shared/ArtworkPalette';
@@ -91,19 +91,16 @@ export function EditorialComposition({
     30 * scale * settings.typography.customDescriptionScale;
   const descriptionLineHeight =
     48 * scale * settings.typography.customDescriptionScale;
-  const maxDescriptionCharacters = Math.max(
-    32,
-    Math.floor(contentWidth / (descriptionFontSize * 0.62)),
-  );
   const maxDescriptionLines = Math.max(
     1,
     Math.floor(
       (metadataY - descriptionY - 105 * scale) / descriptionLineHeight,
     ),
   );
-  const descriptionLines = wrapText(
+  const descriptionLines = wrapTextByWidth(
     content.description,
-    maxDescriptionCharacters,
+    contentWidth,
+    descriptionFontSize,
   ).slice(0, maxDescriptionLines);
   const templateSlug = templateName.toLowerCase().replaceAll(' ', '-');
   const descriptionClipId = `${templateSlug}-description-clip`;

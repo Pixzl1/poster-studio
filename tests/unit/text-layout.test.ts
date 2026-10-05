@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { wrapText, wrapTextLines } from '@/lib/domain/text-layout';
+import {
+  wrapText,
+  wrapTextByWidth,
+  wrapTextLines,
+} from '@/lib/domain/text-layout';
 
 describe('poster text layout', () => {
   it('uses the available line length before wrapping', () => {
@@ -22,6 +26,28 @@ describe('poster text layout', () => {
       'First paragraph',
       '',
       'Second paragraph',
+    ]);
+  });
+
+  it('uses estimated glyph widths instead of an overly conservative character count', () => {
+    expect(
+      wrapTextByWidth(
+        'A polished presentation of a project currently held together by panic',
+        600,
+        20,
+      ),
+    ).toEqual([
+      'A polished presentation of a project currently held together by',
+      'panic',
+    ]);
+  });
+
+  it('keeps explicit line breaks and splits tokens that exceed the width', () => {
+    expect(wrapTextByWidth('First line\n\nabcdefghijkl', 45, 10)).toEqual([
+      'First line',
+      '',
+      'abcdefghij',
+      'kl',
     ]);
   });
 

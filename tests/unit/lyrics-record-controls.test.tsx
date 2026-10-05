@@ -5,7 +5,9 @@ import { CustomContentEditor } from '@/components/editor/CustomContentEditor';
 import { SettingsPanel } from '@/components/settings/SettingsPanel';
 import { createCustomProject } from '@/lib/domain/project';
 
-function render(template: 'lyrics-record-light' | 'editorial-white') {
+function render(
+  template: 'lyrics-record-light' | 'editorial-dark' | 'editorial-white',
+) {
   const project = createCustomProject();
   project.settings.template = template;
   return renderToStaticMarkup(
@@ -22,14 +24,19 @@ function render(template: 'lyrics-record-light' | 'editorial-white') {
 }
 
 describe('Lyrics Record controls', () => {
-  it('extends only the lyrics font-size slider to 300 percent', () => {
+  it('extends lyrics and Editorial description sliders to 300 percent', () => {
     const lyrics = render('lyrics-record-light');
-    const editorial = render('editorial-white');
 
     expect(lyrics).toMatch(
       /<input[^>]*type="range"[^>]*max="300"[^>]*aria-label="Liedtext"/,
     );
-    expect(editorial).not.toContain('max="300"');
+    for (const template of ['editorial-dark', 'editorial-white'] as const) {
+      const editorial = render(template);
+      expect(editorial).toMatch(
+        /<input[^>]*type="range"[^>]*max="300"[^>]*aria-label="Beschreibung"/,
+      );
+      expect(editorial.match(/max="300"/g)).toHaveLength(1);
+    }
   });
 
   it('offers a visible-by-default record-hole option only for Lyrics Record', () => {

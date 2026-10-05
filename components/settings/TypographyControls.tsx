@@ -20,6 +20,10 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
   const { t } = useLanguage();
   const isLyricsRecord =
     template === 'lyrics-record-light' || template === 'lyrics-record-dark';
+  const hasExtendedDescriptionScale =
+    isLyricsRecord ||
+    template === 'editorial-dark' ||
+    template === 'editorial-white';
   const controls: Array<{
     key: TypographyKey;
     label: Parameters<typeof t>[0];
@@ -66,7 +70,8 @@ export function TypographyControls({ mode, template, value, onChange }: Props) {
       {controls.map((control) => {
         const percentage = Math.round(value[control.key] * 100);
         const maximum =
-          isLyricsRecord && control.key === 'customDescriptionScale'
+          hasExtendedDescriptionScale &&
+          control.key === 'customDescriptionScale'
             ? 300
             : 150;
         return (
