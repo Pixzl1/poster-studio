@@ -17,7 +17,9 @@ function render(
         onChange={() => {}}
         onExportPng={() => {}}
         onExportPdf={() => {}}
+        onExportBatch={() => {}}
         exporting={null}
+        batchProgress={null}
       />
     </LanguageProvider>,
   );

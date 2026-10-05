@@ -7,10 +7,15 @@ export async function renderPosterPdf(
   settings: PosterSettings,
   artworkFile: File,
 ): Promise<Blob> {
-  const [{ PDFDocument }, png] = await Promise.all([
-    import('pdf-lib'),
-    renderPosterPng(svg, settings, artworkFile),
-  ]);
+  const png = await renderPosterPng(svg, settings, artworkFile);
+  return renderPosterPdfFromPng(png, settings);
+}
+
+export async function renderPosterPdfFromPng(
+  png: Blob,
+  settings: PosterSettings,
+): Promise<Blob> {
+  const { PDFDocument } = await import('pdf-lib');
   const document = await PDFDocument.create();
   const format = PRINT_FORMATS[settings.format];
   const width = mmToPoints(format.widthMm);

@@ -14,6 +14,10 @@ import { StyleSelector } from '@/components/settings/StyleSelector';
 import { TypographyControls } from '@/components/settings/TypographyControls';
 import { CheckIcon } from '@/components/ui/Icons';
 import { isProjectExportable } from '@/lib/domain/project';
+import type {
+  BatchExportProgress,
+  BatchExportRequest,
+} from '@/lib/export/batch';
 import type { PosterProject, PosterSettings } from '@/types/poster';
 
 interface Props {
@@ -21,7 +25,9 @@ interface Props {
   onChange(project: PosterProject): void;
   onExportPng(): void;
   onExportPdf(): void;
-  exporting: 'png' | 'pdf' | null;
+  onExportBatch(request: BatchExportRequest): void;
+  exporting: 'png' | 'pdf' | 'batch' | null;
+  batchProgress: BatchExportProgress | null;
 }
 
 export function SettingsPanel({
@@ -29,7 +35,9 @@ export function SettingsPanel({
   onChange,
   onExportPng,
   onExportPdf,
+  onExportBatch,
   exporting,
+  batchProgress,
 }: Props) {
   const { t } = useLanguage();
   const update = <K extends keyof PosterSettings>(
@@ -147,9 +155,14 @@ export function SettingsPanel({
         <div className="pt-4">
           <ExportActions
             exporting={exporting}
+            batchProgress={batchProgress}
+            batchEnabled={project.mode === 'custom'}
+            artwork={project.artwork}
+            dpi={settings.dpi}
             disabled={!isProjectExportable(project)}
             onExportPng={onExportPng}
             onExportPdf={onExportPdf}
+            onExportBatch={onExportBatch}
           />
         </div>
       </div>

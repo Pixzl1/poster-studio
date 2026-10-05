@@ -25,10 +25,8 @@ export function GeneratorWorkspace({
   const [posterLoading, setPosterLoading] = useState(false);
   const posterContainerRef = useRef<HTMLDivElement>(null);
   const objectUrlsRef = useRef<Set<string>>(new Set());
-  const { exporting, error, exportPng, exportPdf } = usePosterExport(
-    project,
-    posterContainerRef,
-  );
+  const { exporting, batchProgress, error, exportPng, exportPdf, exportBatch } =
+    usePosterExport(project, posterContainerRef);
 
   useEffect(
     () => () => {
@@ -81,7 +79,9 @@ export function GeneratorWorkspace({
             onChange={updateProject}
             onExportPng={exportPng}
             onExportPdf={exportPdf}
+            onExportBatch={exportBatch}
             exporting={exporting}
+            batchProgress={batchProgress}
           />
           {error && (
             <p

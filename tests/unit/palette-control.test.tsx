@@ -13,7 +13,9 @@ function render(project: PosterProject) {
         onChange={() => {}}
         onExportPng={() => {}}
         onExportPdf={() => {}}
+        onExportBatch={() => {}}
         exporting={null}
+        batchProgress={null}
       />
     </LanguageProvider>,
   );
