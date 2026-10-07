@@ -2,7 +2,7 @@ import { PRINT_FORMATS } from '@/lib/config/print-formats';
 import { normalizePosterLink } from '@/lib/domain/poster-link';
 import { wrapTextByWidth } from '@/lib/domain/text-layout';
 import { AlbumCodeMark } from '@/templates/classic/PosterFooter';
-import { getPosterScale, truncateLabel } from '@/templates/classic/layout';
+import { truncateLabel } from '@/templates/classic/layout';
 import { ArtworkPalette } from '@/templates/shared/ArtworkPalette';
 import { PosterArtwork, SANS } from '@/templates/shared/elements';
 import type { CustomPosterTemplateProps } from '@/templates/types';
@@ -14,6 +14,16 @@ const COLORS = {
   accent: '#c06b48',
   rule: '#353632',
 };
+
+const EDITORIAL_REFERENCE_WIDTH = 2100;
+const EDITORIAL_REFERENCE_HEIGHT = 2940;
+
+export function getEditorialScale(width: number, height: number): number {
+  return Math.min(
+    width / EDITORIAL_REFERENCE_WIDTH,
+    height / EDITORIAL_REFERENCE_HEIGHT,
+  );
+}
 
 export function EditorialDarkTemplate(props: CustomPosterTemplateProps) {
   return (
@@ -41,7 +51,9 @@ export function EditorialComposition({
   const width = format.widthMm * 10;
   const height = format.heightMm * 10;
   const margin = settings.marginMm * 10;
-  const scale = getPosterScale(width);
+  // Wider formats have less vertical room in relation to their width. Limiting
+  // the scale by both dimensions keeps typography and spacing inside the poster.
+  const scale = getEditorialScale(width, height);
   const contentWidth = width - margin * 2;
   const artworkHeight = Math.min(contentWidth * 0.9, height * 0.53);
   const titleSize =

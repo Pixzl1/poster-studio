@@ -9,6 +9,7 @@ import {
   PRINT_FORMATS,
 } from '@/lib/config/print-formats';
 import { DEFAULT_ARTWORK_SETTINGS } from '@/lib/domain/project';
+import { getEditorialScale } from '@/templates/editorial-dark/EditorialDarkTemplate';
 import { CUSTOM_POSTER_TEMPLATES } from '@/templates/registry';
 import type {
   CustomPosterContent,
@@ -48,6 +49,14 @@ function attribute(tag: string, name: string): number {
 }
 
 describe('editorial artwork palette', () => {
+  it('limits typography by poster height on wider formats', () => {
+    expect(getEditorialScale(2100, 2970)).toBe(1);
+    expect(getEditorialScale(2970, 4200)).toBeCloseTo(2970 / 2100);
+    expect(getEditorialScale(5000, 7000)).toBeCloseTo(5000 / 2100);
+    expect(getEditorialScale(3000, 4000)).toBeCloseTo(4000 / 2940);
+    expect(getEditorialScale(4000, 5000)).toBeCloseTo(5000 / 2940);
+  });
+
   it('retains uploaded colors and safely normalizes missing or invalid palettes', () => {
     expect(normalizeArtworkPalette(palette)).toEqual(palette);
     expect(normalizeArtworkPalette(undefined)).toEqual(DEFAULT_ARTWORK_PALETTE);
@@ -165,6 +174,63 @@ describe('editorial artwork palette', () => {
             ),
           ).toBe(markup);
         }
+      },
+    );
+
+    it.each(['30x40', '40x50'] as const)(
+      `${template}: keeps enlarged custom content inside the wider %s layout`,
+      (format) => {
+        const expandedContent: CustomPosterContent = {
+          title: 'FUCKTIVITY',
+          subtitle: '/ˌfʌkˈtɪvɪti/',
+          creator: '',
+          year: '',
+          description:
+            'The strange workplace condition in which you finish twice as much work after half the team quits. Management calls it “improved efficiency.” You call it doing three jobs for one paycheck and a thank-you emoji.',
+          category: '',
+          metadata: [
+            { id: 'term', label: 'Corporate term', value: 'Efficiency' },
+            {
+              id: 'meaning',
+              label: 'Actual meaning',
+              value: 'Three jobs, one salary',
+            },
+            {
+              id: 'reward',
+              label: 'Reward',
+              value: 'Great team effort',
+            },
+          ],
+        };
+        const markup = renderToStaticMarkup(
+          <Template
+            content={expandedContent}
+            artwork={artwork}
+            artworkSettings={DEFAULT_ARTWORK_SETTINGS}
+            settings={{
+              ...DEFAULT_POSTER_SETTINGS,
+              template,
+              format,
+              marginMm: 25,
+              showArtworkPalette: false,
+              typography: {
+                ...DEFAULT_POSTER_SETTINGS.typography,
+                customTitleScale: 1.25,
+                customSubtitleScale: 1.5,
+                customDescriptionScale: 1.6,
+                customMetadataScale: 1.35,
+              },
+            }}
+          />,
+        );
+
+        expect(markup).toContain('and a thank-you emoji.</tspan>');
+        expect(markup).toContain('Three jobs, one salary');
+        expect(markup.match(/data-custom-metadata="optional"/g)).toHaveLength(
+          3,
+        );
+        expect(markup).not.toContain('…');
+        expect(markup).not.toMatch(/NaN|Infinity/);
       },
     );
 
